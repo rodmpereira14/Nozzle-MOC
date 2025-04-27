@@ -42,6 +42,19 @@ def mach_from_prandtl_meyer_angle(angle):
     mach = fsolve(function, 2.0)[0]
     return mach
 
+def interpolate_angle(theta, n_lines):
+    """
+    Interpolate the angle theta for the Method of Characteristics.    
+    """
+    result = [0]
+    temp = theta - (1 + (theta % 1))
+    delta = temp / (n_lines - 2)
+    for i in range(n_lines - 2):
+        result.append(result[i] + delta)
+    result.append(theta)
+    return result
+
+
 def characteristic_points(n_lines):
     """
     Calculate the characteristic points for the Method of Characteristics.
@@ -99,18 +112,6 @@ def characteristic_points(n_lines):
                 charact_points[i]["y"] = 0
     return charact_points
 
-         
-def interpolate_angle(theta, n_lines):
-    """
-    Interpolate the angle theta for the Method of Characteristics.    
-    """
-    result = [0]
-    temp = theta - (1 + (theta % 1))
-    delta = temp / (n_lines - 2)
-    for i in range(n_lines - 2):
-        result.append(result[i] + delta)
-    result.append(theta)
-    return result
 
 # def vector_to_string(vector):
 #     """
@@ -158,8 +159,9 @@ def execute():
 
     theta_array = interpolate_angle(theta_max, n_lines)
     print(f"Interpolated angles (\u03B8_array): {theta_array} degrees")
+
     charact_points = characteristic_points(n_lines)
-    # print(f"Characteristic points: {charact_points}")
+
     wall_points = [i for i in charact_points if charact_points[i]["isw"]==True]
     print(f"\nWall points: {wall_points}")
     center_points = [i for i in charact_points if charact_points[i]["iscl"]==True]
@@ -170,9 +172,9 @@ def execute():
     mu_a = mach_angle(mach_a)
     print(f"Mach angle at point a: {mu_a:.5f} degrees")
 
-    ### ==================
-    ### BEGIN MOC
-    ### ==================
+    # ==================
+    #     BEGIN MOC
+    # ==================
 
     # Point a (throat)
     xa = 0                      # x location of point a (cm)
