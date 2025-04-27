@@ -366,7 +366,7 @@ def execute():
 
     
     # Output the results to a file
-    with open("nozzle_contour.txt", "w") as f:
+    with open("./data/nozzle_contour.txt", "w") as f:
         for i in range(0, len(wall_x)):
             x = wall_x[i]
             y = np.sqrt(wall_y[i])
