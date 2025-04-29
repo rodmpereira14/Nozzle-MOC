@@ -46,7 +46,8 @@ def interpolate_angle(theta, n_lines):
     """
     Interpolate the angle theta for the Method of Characteristics.    
     """
-    result = [0]
+    result = []
+    
     temp = theta - (1 + (theta % 1))
     delta = temp / (n_lines - 2)
     for i in range(n_lines - 2):
